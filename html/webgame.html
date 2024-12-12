@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Room Game</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(3, 75, 3);
+            font-family: Arial, sans-serif;
+            transition: background-color 1s ease;
+        }
+        .container {
+            background-color: rgb(12, 12, 12);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: rgb(5, 94, 5);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: rgb(6, 66, 6);
+        }
+        #problem, #snakes, #next-room, #congrats {
+            display: none;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        #snakes {
+            background-color: black;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="game-container">
+        <div id="welcome">
+            <p><h2>Welcome! You are in a dungeon and the door is locked. Solve the clues to escape!</h2></p>
+            <p>On the table there is a piece of paper with a puzzle on it:</p>
+            <p><em>"The code for the door is four digits, equal to the number of legs a spider has, the number of fingers on an average hand, and the number of states in the United States."</em></p>
+            <input type="text" id="answer" placeholder="Enter the code...">
+            <button onclick="checkCode()">Submit</button>
+        </div>
+        <div id="problem" class="popup">
+            <p><h3>You have escaped the room, however there is a problem...</h3></p>
+            <button onclick="showSnakesPopup()">What is the problem?</button>
+        </div>
+        <div id="snakes" class="popup">
+            <p><H1>Snakes!</H1></p>
+        </div>
+        <div id="next-room" class="popup">
+            <p><h2>Just kidding!</h2> 
+            But you are now stuck in another room! 
+            <p>Solve this to escape:</p>
+            <p><em> It stalks the countryside with ears that can’t hear. What is it?</em></p>
+            <input type="text" id="next-answer" placeholder="Enter your answer...">
+            <button onclick="checkNextAnswer()">Submit</button>
+        </div>
+        <div id="congrats">
+            <p><h2>Congratulations, you escaped!</h2></p>
+            <button onclick="restartGame()">Play Again</button>
+            <p><button onclick="location.href='../html/scratchpage.html'">Go back to the Webpage</button></p>
+            <p><button onclick="location.href='../index.html'">Go back to the Resume</button></p>
+        </div>
+    </div>
+
+    <script>
+        function checkCode() {
+            const answer = document.getElementById('answer').value;
+            const welcome = document.getElementById('welcome');
+            const problem = document.getElementById('problem');
+
+            if (answer === '8550') {
+                welcome.style.display = 'none';
+                problem.style.display = 'block';
+                document.body.style.backgroundColor = 'lightgreen';
+            } else {
+                alert('Incorrect code. Try again!');
+            }
+        }
+
+        function showSnakesPopup() {
+            const problem = document.getElementById('problem');
+            const snakes = document.getElementById('snakes');
+
+            problem.style.display = 'none';
+            snakes.style.display = 'block';
+            document.body.style.backgroundColor = 'black';
+
+            setTimeout(() => {
+                snakes.style.display = 'none';
+                showNextRoom();
+            }, 3000);
+        }
+
+        function showNextRoom() {
+            const nextRoom = document.getElementById('next-room');
+            nextRoom.style.display = 'block';
+        }
+
+        function checkNextAnswer() {
+            const nextAnswer = document.getElementById('next-answer').value.toLowerCase();
+            const nextRoom = document.getElementById('next-room');
+            const congrats = document.getElementById('congrats');
+
+            if (nextAnswer === 'corn') {
+                nextRoom.style.display = 'none';
+                congrats.style.display = 'block';
+                changeBackgroundColors();
+            } else {
+                alert('Incorrect answer. Try again!');
+            }
+        }
+
+        function changeBackgroundColors() {
+            const colors = ['yellow', 'orange', 'purple', 'red', 'blue', 'lightblue'];
+            let i = 0;
+
+            const interval = setInterval(() => {
+                if (i < colors.length) {
+                    document.body.style.backgroundColor = colors[i];
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+
+        function restartGame() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
+
